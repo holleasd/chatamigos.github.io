@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Desbloquear Contenido con Video Local</title>
+    <title>Desbloquear Contenido con Imagen</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -44,10 +44,11 @@
         button:hover {
             background-color: #218838;
         }
-        video {
+        img {
             width: 100%;
             height: auto;
             margin-top: 20px;
+            border-radius: 10px;
         }
     </style>
 </head>
@@ -59,20 +60,17 @@
     <button onclick="validatePassword()">Desbloquear</button>
 
     <div id="content">
-        <h3>¡Acceso concedido!</h3>
+        <h3>>WELKOME TO DO KAKA COMUNITY</h3>
         <p>Has introducido la contraseña correcta. Aquí está el contenido desbloqueado.</p>
         
-        <!-- Video Local -->
-        <video controls>
-            <source src="videoplayback (2).mp4" type="video/mp4">
-            Tu navegador no soporta la reproducción de videos.
-        </video>
+        <!-- Imagen desde Google -->
+        <img src="https://previews.123rf.com/images/zurijeta/zurijeta1103/zurijeta110300028/9017142-niño-árabe-con-pulgar-arriba.jpg">
     </div>
 </div>
 
 <script>
     // Definir la contraseña correcta
-    const correctPassword = "1r_Eso2024";
+    const correctPassword = "1r_Eso";
 
     function validatePassword() {
         const password = document.getElementById('passwordInput').value;
