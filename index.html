@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Desbloquear Contenido con Imagen</title>
+    <title>Desbloquear Contenido con Galería de Imágenes</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -20,7 +20,8 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             text-align: center;
-            width: 300px;
+            width: 80%;
+            max-width: 1200px;
         }
         #content {
             display: none;
@@ -44,11 +45,28 @@
         button:hover {
             background-color: #218838;
         }
-        img {
-            width: 100%;
-            height: auto;
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
             margin-top: 20px;
+        }
+        .gallery img {
+            width: 30%;
+            height: auto;
+            margin-bottom: 20px;
             border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        @media (max-width: 768px) {
+            .gallery img {
+                width: 45%;
+            }
+        }
+        @media (max-width: 480px) {
+            .gallery img {
+                width: 100%;
+            }
         }
     </style>
 </head>
@@ -60,14 +78,24 @@
     <button onclick="validatePassword()">Desbloquear</button>
 
     <div id="content">
-        <h3>WELCOME TO MY COMUNITY</h3>
-        <p>BY MIQUEL MONRÓS</p>
-        
-        <!-- Imagen desde Google -->
-        <img src="https://i.ytimg.com/vi/lQUQ-DOX4jM/sddefault.jpg?v=60fc4809">
-        <img src="https://media.licdn.com/dms/image/v2/D4E12AQFvVLc5GOpwyA/article-cover_image-shrink_600_2000/article-cover_image-shrink_600_2000/0/1669728672025?e=2147483647&v=beta&t=RhWsVetnBG_pymKXphDGLuvsip49HBv2-futlGbrE-I">
-        <img src="https://i.ytimg.com/vi/5AAyh7scplM/sddefault.jpg?v=65aeb3d3">
-        <img src="https://i.ytimg.com/vi/F-BNSrglqcA/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLA0MuFjVT13AxtWVy3QDvhlkjKC_w">
+        <h3>WELCOME TO MIQUEL COMUNITY</h3>
+        <p>PROGRAMAT PER MIQUEL MONRÓS</p>
+
+        <!-- Galería de Imágenes -->
+        <div class="gallery">
+            <img src="https://i.ytimg.com/vi/lQUQ-DOX4jM/sddefault.jpg?v=60fc4809" alt="Imagen 1">
+            <img src="https://media.licdn.com/dms/image/v2/D4E12AQFvVLc5GOpwyA/article-cover_image-shrink_600_2000/article-cover_image-shrink_600_2000/0/1669728672025?e=2147483647&v=beta&t=RhWsVetnBG_pymKXphDGLuvsip49HBv2-futlGbrE-I" alt="Imagen 2">
+            <img src="https://i.ytimg.com/vi/5AAyh7scplM/sddefault.jpg?v=65aeb3d3" alt="Imagen 3">
+            <img src="https://i.ytimg.com/vi/F-BNSrglqcA/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLA0MuFjVT13AxtWVy3QDvhlkjKC_w" alt="Imagen 4">
+            <img src="https://i.pinimg.com/736x/dd/4e/86/dd4e865a06eaeaaf1e6e7524bd0248cd.jpg" alt="Imagen 5">
+            <img src="https://stickermaker.s3.eu-west-1.amazonaws.com/storage/uploads/sticker-pack/memes-random-xdd/tray_large.png?1f33ac9d378072189e9fcd174b9b20e4" alt="Imagen 6">
+            <img src="https://s2.dmcdn.net/v/SqfKZ1WNipVg5ti58/x240" alt="Imagen 7">
+            <img src="https://i.ytimg.com/vi/pxWfjZ1UpcE/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLC1-4AMqIVWSeNiaTbSdah37IeUZw" alt="Imagen 8">
+            <img src="https://images3.memedroid.com/images/UPLOADED255/5ea9c6d5abe98.jpeg" alt="Imagen 9">
+            <img src="https://www.reddit.com/media?url=https%3A%2F%2Fpreview.redd.it%2Fcombo-de-memes-random-v0-og1bqenzowuc1.jpg%3Fwidth%3D640%26crop%3Dsmart%26auto%3Dwebp%26s%3D171979c46adea5037f99457d6ca4dcdd451655e9" alt="Imagen 10">
+            <img src="https://img.wattpad.com/cover/217867036-288-k486489.jpg" alt="Imagen 11">
+            <img src="https://i.ytimg.com/vi/F8EETEE2TGg/sddefault.jpg?v=63e6aae8">
+        </div>
     </div>
 </div>
 
