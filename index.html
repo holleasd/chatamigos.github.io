@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Desbloquear Chat</title>
+    <title>Desbloquear Contenido</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -22,11 +22,11 @@
             text-align: center;
             width: 300px;
         }
-        #chat, #message {
+        #content {
             display: none;
             margin-top: 20px;
         }
-        input[type="text"], input[type="text"] {
+        input[type="password"] {
             padding: 10px;
             width: 100%;
             margin: 10px 0;
@@ -44,69 +44,40 @@
         button:hover {
             background-color: #218838;
         }
-        #chatBox {
+        iframe {
             width: 100%;
-            height: 300px;
-            border: 1px solid #ccc;
-            padding: 10px;
-            overflow-y: scroll;
-            margin-bottom: 10px;
-        }
-        #messageInput {
-            width: calc(100% - 24px);
-            padding: 10px;
+            height: 315px;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Introduce el Código</h2>
-    <input type="text" id="codeInput" placeholder="Escribe el código aquí">
-    <button onclick="validateCode()">Enviar</button>
+    <h2>Introduce la contraseña</h2>
+    <input type="password" id="passwordInput" placeholder="Escribe la contraseña aquí">
+    <button onclick="validatePassword()">Desbloquear</button>
 
-    <div id="message">
-        <h3>Código correcto</h3>
-        <p>¡El chat ha sido desbloqueado!</p>
-    </div>
-
-    <!-- Chat Box -->
-    <div id="chat">
-        <div id="chatBox"></div>
-        <input type="text" id="messageInput" placeholder="Escribe tu mensaje aquí">
-        <button onclick="sendMessage()">Enviar Mensaje</button>
+    <div id="content">
+        <h3>¡Acceso concedido!</h3>
+        <p>Has introducido la contraseña correcta. Aquí está el contenido desbloqueado.</p>
+        
+        <!-- Video -->
+        <iframe src="https://youtube.com/shorts/BH7WadzA23E?si=V43TYDJ90Gsj0nbd" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
     </div>
 </div>
 
 <script>
-    // Código correcto para desbloquear el chat
-    const correctCode = "1r_eso2024";
+    // Definir la contraseña correcta
+    const correctPassword = "1r_Eso2024";
 
-    function validateCode() {
-        const code = document.getElementById('codeInput').value;
+    function validatePassword() {
+        const password = document.getElementById('passwordInput').value;
 
-        if (code === correctCode) {
-            document.getElementById('message').style.display = 'block';
-            document.getElementById('chat').style.display = 'block';
+        if (password === correctPassword) {
+            document.getElementById('content').style.display = 'block';
         } else {
-            alert("Código incorrecto, por favor intenta de nuevo.");
-        }
-    }
-
-    function sendMessage() {
-        const chatBox = document.getElementById('chatBox');
-        const messageInput = document.getElementById('messageInput');
-        const message = messageInput.value;
-
-        if (message.trim() !== "") {
-            // Añade el mensaje al chat
-            const newMessage = document.createElement('p');
-            newMessage.textContent = `Tú: ${message}`;
-            chatBox.appendChild(newMessage);
-            chatBox.scrollTop = chatBox.scrollHeight;
-
-            // Limpia el campo de entrada de mensaje
-            messageInput.value = "";
+            alert("Contraseña incorrecta, intenta de nuevo.");
         }
     }
 </script>
