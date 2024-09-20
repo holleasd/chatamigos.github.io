@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Desbloquear Contenido con Galería de Imágenes</title>
+    <title>Atrapa el Cuadrado</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,100 +14,89 @@
             background-color: #f0f0f0;
             margin: 0;
         }
-        .container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            text-align: center;
-            width: 80%;
-            max-width: 1200px;
+        .game-container {
+            position: relative;
+            width: 400px;
+            height: 400px;
+            border: 2px solid #333;
+            background-color: #fafafa;
+            overflow: hidden;
         }
-        #content {
-            display: none;
-            margin-top: 20px;
-        }
-        input[type="password"] {
-            padding: 10px;
-            width: 100%;
-            margin: 10px 0;
-            border: 1px solid #ccc;
+        .square {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: #28a745;
             border-radius: 5px;
+            cursor: pointer;
+        }
+        .score {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
         }
         button {
             padding: 10px 20px;
-            background-color: #28a745;
+            background-color: #007bff;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
         button:hover {
-            background-color: #218838;
-        }
-        .gallery {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-        .gallery img {
-            width: 30%;
-            height: auto;
-            margin-bottom: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        @media (max-width: 768px) {
-            .gallery img {
-                width: 45%;
-            }
-        }
-        @media (max-width: 480px) {
-            .gallery img {
-                width: 100%;
-            }
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>Introduce la contraseña</h2>
-    <input type="password" id="passwordInput" placeholder="Escribe la contraseña aquí">
-    <button onclick="validatePassword()">Desbloquear</button>
-
-    <div id="content">
-        <h3>WELCOME TO MIQUEL COMUNITY</h3>
-        <p>PROGRAMAT PER MIQUEL MONRÓS</p>
-
-        <!-- Galería de Imágenes -->
-        <div class="gallery">
-            <img src="https://i.ytimg.com/vi/lQUQ-DOX4jM/sddefault.jpg?v=60fc4809" alt="Imagen 1">
-            <img src="https://media.licdn.com/dms/image/v2/D4E12AQFvVLc5GOpwyA/article-cover_image-shrink_600_2000/article-cover_image-shrink_600_2000/0/1669728672025?e=2147483647&v=beta&t=RhWsVetnBG_pymKXphDGLuvsip49HBv2-futlGbrE-I" alt="Imagen 2">
-            <img src="https://i.ytimg.com/vi/5AAyh7scplM/sddefault.jpg?v=65aeb3d3" alt="Imagen 3">
-            <img src="https://i.ytimg.com/vi/F-BNSrglqcA/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLA0MuFjVT13AxtWVy3QDvhlkjKC_w" alt="Imagen 4">
-            <img src="https://stickermaker.s3.eu-west-1.amazonaws.com/storage/uploads/sticker-pack/memes-random-xdd/tray_large.png?1f33ac9d378072189e9fcd174b9b20e4" alt="Imagen 6">
-            <img src="https://s2.dmcdn.net/v/SqfKZ1WNipVg5ti58/x240" alt="Imagen 7">
-            <img src="https://i.ytimg.com/vi/pxWfjZ1UpcE/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLC1-4AMqIVWSeNiaTbSdah37IeUZw" alt="Imagen 8">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_m6uwC30hk4N8xMLLWwSeosuA5WuXXHThzw&s" alt="Imagen 10">
-            <img src="https://i.ytimg.com/vi/F8EETEE2TGg/sddefault.jpg?v=63e6aae8" alt="Imagen12">
-        </div>
+<div>
+    <div class="score">Puntuación: <span id="score">0</span></div>
+    <div class="game-container">
+        <div class="square" id="square"></div>
     </div>
+    <button onclick="startGame()">Iniciar Juego</button>
 </div>
 
 <script>
-    // Definir la contraseña correcta
-    const correctPassword = "1r_Eso";
+    let score = 0;
+    let square = document.getElementById('square');
+    let gameContainer = document.querySelector('.game-container');
+    let scoreDisplay = document.getElementById('score');
+    let moveInterval;
+    let speed = 1000; // Velocidad inicial en milisegundos
 
-    function validatePassword() {
-        const password = document.getElementById('passwordInput').value;
+    // Función para mover el cuadrado a una nueva posición aleatoria
+    function moveSquare() {
+        let maxX = gameContainer.clientWidth - square.offsetWidth;
+        let maxY = gameContainer.clientHeight - square.offsetHeight;
 
-        if (password === correctPassword) {
-            document.getElementById('content').style.display = 'block';
-        } else {
-            alert("Contraseña incorrecta, intenta de nuevo.");
+        let randomX = Math.floor(Math.random() * maxX);
+        let randomY = Math.floor(Math.random() * maxY);
+
+        square.style.left = randomX + 'px';
+        square.style.top = randomY + 'px';
+    }
+
+    // Incrementar la puntuación y acelerar el cuadrado
+    square.onclick = function() {
+        score++;
+        scoreDisplay.innerText = score;
+        if (score % 5 === 0 && speed > 200) {
+            speed -= 100; // Aumenta la velocidad cada 5 puntos
+            clearInterval(moveInterval);
+            moveInterval = setInterval(moveSquare, speed);
         }
+    }
+
+    // Función para iniciar el juego
+    function startGame() {
+        score = 0;
+        scoreDisplay.innerText = score;
+        speed = 1000;
+        clearInterval(moveInterval);
+        moveSquare();
+        moveInterval = setInterval(moveSquare, speed);
     }
 </script>
 
