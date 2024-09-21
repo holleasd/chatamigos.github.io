@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PULSA EL BOTON</title>
+    <title>Elige una Opción</title>
     <style>
         body {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -14,8 +15,21 @@
             font-family: Arial, sans-serif;
             background-color: #f0f0f0;
         }
-        h1 {
+        h1, p {
             color: #333;
+        }
+        .buttons {
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            margin: 0 10px;
+            cursor: pointer;
+        }
+        #linkButton {
+            display: none;
+            margin-top: 20px;
         }
         a {
             text-decoration: none;
@@ -29,7 +43,25 @@
 </head>
 <body>
 
-    <h1><a href="https://02ip.ru/25b5T4" target="_blank">PULSAME</a></h1>
+    <h1>¿Quieres aceptar las cookies?</h1>
+    <div class="buttons">
+        <button id="yesButton">Sí</button>
+        <button id="noButton">No</button>
+    </div>
+
+    <div id="linkButton">
+        <h1><a href="https://2no.co/25M6T4" target="_blank">Haz clic aquí para escuchar gloria</a></h1>
+    </div>
+
+    <script>
+        document.getElementById('yesButton').addEventListener('click', function() {
+            document.getElementById('linkButton').style.display = 'block';
+        });
+
+        document.getElementById('noButton').addEventListener('click', function() {
+            alert('Has elegido no mostrar el enlace.');
+        });
+    </script>
 
 </body>
 </html>
