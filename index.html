@@ -3,135 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Desbloquear Imágenes con Flechas</title>
+    <title>PULSA EL BOTON</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f0f0f0;
             margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
         }
-        .container {
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            text-align: center;
-            width: 600px;
-            max-width: 90%;
-            position: relative;
+        h1 {
+            color: #333;
         }
-        #passwordContainer {
-            margin-bottom: 20px;
+        a {
+            text-decoration: none;
+            color: #007BFF;
+            font-size: 24px;
         }
-        input[type="password"] {
-            padding: 10px;
-            width: 100%;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #218838;
-        }
-        .image-container {
-            display: none;
-            position: relative;
-        }
-        img {
-            width: 100%;
-            height: auto;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
-        .arrow {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 40px;
-            background-color: rgba(0, 0, 0, 0.5);
-            color: white;
-            padding: 10px;
-            border-radius: 50%;
-            cursor: pointer;
-        }
-        .arrow:hover {
-            background-color: rgba(0, 0, 0, 0.8);
-        }
-        #leftArrow {
-            left: 10px;
-        }
-        #rightArrow {
-            right: 10px;
+        a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div id="passwordContainer">
-        <h2>Introduce la contraseña</h2>
-        <input type="password" id="passwordInput" placeholder="Escribe la contraseña aquí">
-        <button onclick="validatePassword()">Desbloquear</button>
-    </div>
-
-    <div class="image-container" id="imageContainer">
-        <span class="arrow" id="leftArrow" onclick="changeImage(-1)">&#8592;</span>
-        <img id="imageDisplay" src="https://via.placeholder.com/800x500?text=Imagen+1" alt="Imagen 1">
-        <span class="arrow" id="rightArrow" onclick="changeImage(1)">&#8594;</span>
-    </div>
-</div>
-
-<script>
-    const correctPassword = "21165710622130171";
-    let currentImageIndex = 0;
-
-    // Lista de imágenes
-    const images = [
-        "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da8432cfb8a2875399ac52885874",
-        "https://i.pinimg.com/236x/a7/de/c4/a7dec46aca07b2e12e2e361cfa9312ec.jpg",
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJpJ1fugCbqf-HY9AzWFqLkIDg_XnryylTTg&s",
-        "https://pbs.twimg.com/media/CbRnwp5WwAAS8sJ.png",
-        "https://cloudfront-us-east-1.images.arcpublishing.com/semana/BRMUTVUEYRH2NB7XZZVAO3G324.jpg3"
-    ];
-
-    // Función para validar la contraseña
-    function validatePassword() {
-        const password = document.getElementById('passwordInput').value;
-        if (password === correctPassword) {
-            document.getElementById('passwordContainer').style.display = 'none';
-            document.getElementById('imageContainer').style.display = 'block';
-        } else {
-            alert("Contraseña incorrecta, intenta de nuevo.");
-        }
-    }
-
-    // Función para cambiar de imagen
-    function changeImage(direction) {
-        currentImageIndex += direction;
-
-        // Asegurarse de que el índice esté dentro del rango
-        if (currentImageIndex < 0) {
-            currentImageIndex = images.length - 1;
-        } else if (currentImageIndex >= images.length) {
-            currentImageIndex = 0;
-        }
-
-        // Cambiar la imagen
-        document.getElementById('imageDisplay').src = images[currentImageIndex];
-    }
-</script>
+    <h1><a href="https://02ip.ru/25b5T4" target="_blank">PULSAME</a></h1>
 
 </body>
 </html>
