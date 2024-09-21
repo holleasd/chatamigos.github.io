@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atrapa el Cuadrado</title>
+    <title>Desbloquear Imágenes con Flechas</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,89 +14,122 @@
             background-color: #f0f0f0;
             margin: 0;
         }
-        .game-container {
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 600px;
+            max-width: 90%;
             position: relative;
-            width: 400px;
-            height: 400px;
-            border: 2px solid #333;
-            background-color: #fafafa;
-            overflow: hidden;
         }
-        .square {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            background-color: #28a745;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .score {
+        #passwordContainer {
             margin-bottom: 20px;
-            font-size: 24px;
-            color: #333;
+        }
+        input[type="password"] {
+            padding: 10px;
+            width: 100%;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
         button {
             padding: 10px 20px;
-            background-color: #007bff;
+            background-color: #28a745;
             color: white;
             border: none;
             border-radius: 5px;
             cursor: pointer;
         }
         button:hover {
-            background-color: #0056b3;
+            background-color: #218838;
+        }
+        .image-container {
+            display: none;
+            position: relative;
+        }
+        img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 40px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 10px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .arrow:hover {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+        #leftArrow {
+            left: 10px;
+        }
+        #rightArrow {
+            right: 10px;
         }
     </style>
 </head>
 <body>
 
-<div>
-    <div class="score">Puntuación: <span id="score">0</span></div>
-    <div class="game-container">
-        <div class="square" id="square"></div>
+<div class="container">
+    <div id="passwordContainer">
+        <h2>Introduce la contraseña</h2>
+        <input type="password" id="passwordInput" placeholder="Escribe la contraseña aquí">
+        <button onclick="validatePassword()">Desbloquear</button>
     </div>
-    <button onclick="startGame()">Iniciar Juego</button>
+
+    <div class="image-container" id="imageContainer">
+        <span class="arrow" id="leftArrow" onclick="changeImage(-1)">&#8592;</span>
+        <img id="imageDisplay" src="https://via.placeholder.com/800x500?text=Imagen+1" alt="Imagen 1">
+        <span class="arrow" id="rightArrow" onclick="changeImage(1)">&#8594;</span>
+    </div>
 </div>
 
 <script>
-    let score = 0;
-    let square = document.getElementById('square');
-    let gameContainer = document.querySelector('.game-container');
-    let scoreDisplay = document.getElementById('score');
-    let moveInterval;
-    let speed = 1000; // Velocidad inicial en milisegundos
+    const correctPassword = "21165710622130171";
+    let currentImageIndex = 0;
 
-    // Función para mover el cuadrado a una nueva posición aleatoria
-    function moveSquare() {
-        let maxX = gameContainer.clientWidth - square.offsetWidth;
-        let maxY = gameContainer.clientHeight - square.offsetHeight;
+    // Lista de imágenes
+    const images = [
+        "https://image-cdn-ak.spotifycdn.com/image/ab67706c0000da8432cfb8a2875399ac52885874",
+        "https://i.pinimg.com/236x/a7/de/c4/a7dec46aca07b2e12e2e361cfa9312ec.jpg",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJpJ1fugCbqf-HY9AzWFqLkIDg_XnryylTTg&s",
+        "https://pbs.twimg.com/media/CbRnwp5WwAAS8sJ.png",
+        "https://cloudfront-us-east-1.images.arcpublishing.com/semana/BRMUTVUEYRH2NB7XZZVAO3G324.jpg3"
+    ];
 
-        let randomX = Math.floor(Math.random() * maxX);
-        let randomY = Math.floor(Math.random() * maxY);
-
-        square.style.left = randomX + 'px';
-        square.style.top = randomY + 'px';
-    }
-
-    // Incrementar la puntuación y acelerar el cuadrado
-    square.onclick = function() {
-        score++;
-        scoreDisplay.innerText = score;
-        if (score % 5 === 0 && speed > 200) {
-            speed -= 100; // Aumenta la velocidad cada 5 puntos
-            clearInterval(moveInterval);
-            moveInterval = setInterval(moveSquare, speed);
+    // Función para validar la contraseña
+    function validatePassword() {
+        const password = document.getElementById('passwordInput').value;
+        if (password === correctPassword) {
+            document.getElementById('passwordContainer').style.display = 'none';
+            document.getElementById('imageContainer').style.display = 'block';
+        } else {
+            alert("Contraseña incorrecta, intenta de nuevo.");
         }
     }
 
-    // Función para iniciar el juego
-    function startGame() {
-        score = 0;
-        scoreDisplay.innerText = score;
-        speed = 1000;
-        clearInterval(moveInterval);
-        moveSquare();
-        moveInterval = setInterval(moveSquare, speed);
+    // Función para cambiar de imagen
+    function changeImage(direction) {
+        currentImageIndex += direction;
+
+        // Asegurarse de que el índice esté dentro del rango
+        if (currentImageIndex < 0) {
+            currentImageIndex = images.length - 1;
+        } else if (currentImageIndex >= images.length) {
+            currentImageIndex = 0;
+        }
+
+        // Cambiar la imagen
+        document.getElementById('imageDisplay').src = images[currentImageIndex];
     }
 </script>
 
