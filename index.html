@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Juego de la Flecha</title>
+    <title>Geometry Dash Básico</title>
     <style>
         * {
             margin: 0;
@@ -16,8 +16,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f0f0f0;
-            font-family: Arial, sans-serif;
+            background-color: #222;
         }
 
         canvas {
@@ -37,91 +36,80 @@
     </style>
 </head>
 <body>
-    <canvas id="gameCanvas" width="600" height="400"></canvas>
+    <canvas id="gameCanvas" width="800" height="400"></canvas>
     <div id="gameOverText" class="game-over">¡Game Over!</div>
 
     <script>
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
 
-        // Variables de la flecha
-        let arrowX = 50;
-        let arrowY = canvas.height / 2;
-        let gravity = 2;
-        let lift = -4;
-        let arrowSpeed = 0;
-        let isMouseDown = false;
+        // Variables del jugador (cuadrado)
+        const player = {
+            x: 50,
+            y: canvas.height - 100,
+            width: 50,
+            height: 50,
+            color: '#FF5733',
+            gravity: 0.6,
+            lift: -12,
+            velocityY: 0,
+            jumping: false
+        };
 
         // Variables de los obstáculos
-        let obstacles = [];
-        let obstacleWidth = 30;
-        let obstacleGap = 150;
-        let obstacleSpeed = 3;
+        const obstacles = [];
+        const obstacleWidth = 30;
+        const obstacleHeight = 60;
+        const obstacleSpeed = 6;
         let frameCount = 0;
 
         // Estado del juego
         let isGameOver = false;
 
-        // Evento cuando el ratón está presionado
-        document.addEventListener('mousedown', () => {
-            isMouseDown = true;
-        });
+        // Evento para salto
+        document.addEventListener('keydown', jump);
 
-        // Evento cuando el ratón se suelta
-        document.addEventListener('mouseup', () => {
-            isMouseDown = false;
-        });
+        function jump(event) {
+            if (event.code === 'Space' && !player.jumping) {
+                player.velocityY = player.lift;
+                player.jumping = true;
+            }
+        }
 
-        // Dibujar flecha
-        function drawArrow() {
-            ctx.fillStyle = "red";
-            ctx.beginPath();
-            ctx.moveTo(arrowX, arrowY);
-            ctx.lineTo(arrowX - 20, arrowY + 10);
-            ctx.lineTo(arrowX - 20, arrowY - 10);
-            ctx.closePath();
-            ctx.fill();
+        // Dibujar jugador (cuadrado)
+        function drawPlayer() {
+            ctx.fillStyle = player.color;
+            ctx.fillRect(player.x, player.y, player.width, player.height);
         }
 
         // Dibujar obstáculos
         function drawObstacles() {
-            ctx.fillStyle = "green";
+            ctx.fillStyle = 'green';
             obstacles.forEach(obstacle => {
-                // Parte superior del obstáculo
-                ctx.fillRect(obstacle.x, 0, obstacleWidth, obstacle.topHeight);
-                // Parte inferior del obstáculo
-                ctx.fillRect(obstacle.x, obstacle.topHeight + obstacleGap, obstacleWidth, canvas.height - obstacle.topHeight - obstacleGap);
+                ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
             });
         }
 
-        // Actualizar posición de la flecha
-        function updateArrow() {
-            if (isMouseDown) {
-                arrowSpeed += lift; // Sube cuando se aprieta el ratón
-            } else {
-                arrowSpeed += gravity; // Baja cuando no se aprieta el ratón
-            }
+        // Actualizar posición del jugador
+        function updatePlayer() {
+            player.velocityY += player.gravity;
+            player.y += player.velocityY;
 
-            arrowY += arrowSpeed;
-
-            // Limitar para que la flecha no salga del canvas
-            if (arrowY < 0) {
-                arrowY = 0;
-                arrowSpeed = 0;
-            }
-
-            if (arrowY > canvas.height) {
-                arrowY = canvas.height;
-                arrowSpeed = 0;
+            // Limitar el suelo
+            if (player.y + player.height > canvas.height - 50) {
+                player.y = canvas.height - 50 - player.height;
+                player.velocityY = 0;
+                player.jumping = false;
             }
         }
 
         // Generar obstáculos
         function generateObstacle() {
-            const topHeight = Math.floor(Math.random() * (canvas.height - obstacleGap));
             obstacles.push({
                 x: canvas.width,
-                topHeight: topHeight
+                y: canvas.height - obstacleHeight - 50,
+                width: obstacleWidth,
+                height: obstacleHeight
             });
         }
 
@@ -132,10 +120,10 @@
             });
 
             // Eliminar obstáculos que ya no se ven
-            obstacles = obstacles.filter(obstacle => obstacle.x + obstacleWidth > 0);
+            obstacles = obstacles.filter(obstacle => obstacle.x + obstacle.width > 0);
 
-            // Cada cierto tiempo generar un nuevo obstáculo
-            if (frameCount % 120 === 0) {
+            // Generar nuevos obstáculos cada cierto tiempo
+            if (frameCount % 90 === 0) {
                 generateObstacle();
             }
         }
@@ -143,10 +131,13 @@
         // Detectar colisiones
         function detectCollisions() {
             for (let obstacle of obstacles) {
-                if (arrowX > obstacle.x && arrowX < obstacle.x + obstacleWidth) {
-                    if (arrowY < obstacle.topHeight || arrowY > obstacle.topHeight + obstacleGap) {
-                        return true;
-                    }
+                if (
+                    player.x < obstacle.x + obstacle.width &&
+                    player.x + player.width > obstacle.x &&
+                    player.y < obstacle.y + obstacle.height &&
+                    player.y + player.height > obstacle.y
+                ) {
+                    return true;
                 }
             }
             return false;
@@ -157,16 +148,17 @@
             document.getElementById('gameOverText').style.display = 'block';
         }
 
-        // Función principal de animación
+        // Función principal del juego
         function gameLoop() {
             if (isGameOver) return;
 
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            drawArrow();
+            // Dibujar y actualizar jugador y obstáculos
+            drawPlayer();
             drawObstacles();
 
-            updateArrow();
+            updatePlayer();
             updateObstacles();
 
             // Detectar colisiones
