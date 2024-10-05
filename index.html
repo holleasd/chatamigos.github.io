@@ -3,65 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elige una Opción</title>
+    <title>Juego de los Vasos y la Pelota</title>
     <style>
         body {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
+            text-align: center;
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
         }
-        h1, p {
+
+        h1 {
             color: #333;
         }
-        .buttons {
+
+        #game-area {
             margin-top: 20px;
         }
-        button {
-            padding: 10px 20px;
-            font-size: 18px;
-            margin: 0 10px;
+
+        .cup {
+            display: inline-block;
+            margin: 20px;
+            width: 100px;
+            height: 150px;
+            background-color: gray;
+            border-radius: 50%;
+            position: relative;
             cursor: pointer;
         }
-        #linkButton {
+
+        .ball {
+            width: 30px;
+            height: 30px;
+            background-color: red;
+            border-radius: 50%;
+            position: absolute;
+            top: 100px;
+            left: 35px;
             display: none;
-            margin-top: 20px;
         }
-        a {
-            text-decoration: none;
-            color: #007BFF;
-            font-size: 24px;
+
+        .ball.active {
+            display: block;
         }
-        a:hover {
-            text-decoration: underline;
+
+        .hidden {
+            display: none;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
-    <h1>¿Quieres aceptar las cookies?</h1>
-    <div class="buttons">
-        <button id="yesButton">Sí</button>
-        <button id="noButton">No</button>
+    <h1>El Juego de los Vasos y la Pelota</h1>
+
+    <p>Elige una dificultad:</p>
+    <button onclick="startGame('facil')">Fácil</button>
+    <button onclick="startGame('medio')">Medio</button>
+    <button onclick="startGame('dificil')">Difícil</button>
+
+    <div id="game-area" class="hidden">
+        <div id="cup1" class="cup" onclick="checkCup(1)"><div id="ball1" class="ball"></div></div>
+        <div id="cup2" class="cup" onclick="checkCup(2)"><div id="ball2" class="ball"></div></div>
+        <div id="cup3" class="cup" onclick="checkCup(3)"><div id="ball3" class="ball"></div></div>
     </div>
 
-    <div id="linkButton">
-        <h1><a href="https://2no.co/25M6T4" target="_blank">Haz clic aquí para escuchar gloria</a></h1>
-    </div>
+    <p id="message"></p>
 
     <script>
-        document.getElementById('yesButton').addEventListener('click', function() {
-            document.getElementById('linkButton').style.display = 'block';
-        });
+        let ballPosition;
+        let shuffleSpeed;
+        let shuffleInterval;
+        let cups = [1, 2, 3]; // Array con los identificadores de los vasos
 
-        document.getElementById('noButton').addEventListener('click', function() {
-            alert('Has elegido no mostrar el enlace.');
-        });
+        function startGame(difficulty) {
+            document.getElementById('message').textContent = "";
+            document.getElementById('game-area').classList.remove('hidden');
+
+            // Colocar la pelota debajo de uno de los vasos de manera aleatoria
+            ballPosition = Math.floor(Math.random() * 3) + 1;
+            document.getElementById(`ball${ballPosition}`).classList.add('active');
+
+            // Ajustar la velocidad del shuffle según la dificultad
+            if (difficulty === 'facil') {
+                shuffleSpeed = 1500;
+            } else if (difficulty === 'medio') {
+                shuffleSpeed = 1000;
+            } else if (difficulty === 'dificil') {
+                shuffleSpeed = 500;
+            }
+
+            // Iniciar el mezclado de los vasos
+            shuffleInterval = setInterval(shuffleCups, shuffleSpeed);
+
+            // Detener el mezclado después de 5 segundos
+            setTimeout(() => {
+                clearInterval(shuffleInterval);
+                document.getElementById(`ball${ballPosition}`).classList.remove('active'); // Ocultar la pelota
+            }, 5000);
+        }
+
+        function shuffleCups() {
+            // Mezclar los vasos de forma aleatoria
+            cups = cups.sort(() => Math.random() - 0.5);
+
+            // Cambiar la posición visual de los vasos
+            document.getElementById('cup1').style.order = cups[0];
+            document.getElementById('cup2').style.order = cups[1];
+            document.getElementById('cup3').style.order = cups[2];
+        }
+
+        function checkCup(selectedCup) {
+            if (selectedCup === ballPosition) {
+                document.getElementById('message').textContent = "¡Correcto! Encontraste la pelota.";
+            } else {
+                document.getElementById('message').textContent = "¡Incorrecto! Intenta de nuevo.";
+            }
+        }
     </script>
-
 </body>
 </html>
