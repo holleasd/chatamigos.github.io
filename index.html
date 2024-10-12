@@ -3,176 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Geometry Dash Básico</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #222;
-        }
-
-        canvas {
-            background-color: #87CEEB;
-            border: 2px solid black;
-        }
-
-        .game-over {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 48px;
-            color: red;
-            display: none;
-        }
-    </style>
+    <title>GALAXYf7</title>
 </head>
 <body>
-    <canvas id="gameCanvas" width="800" height="400"></canvas>
-    <div id="gameOverText" class="game-over">¡Game Over!</div>
+    <h2>Descargar</h2>
+    <p>Puedes descargar el archivo subido utilizando el siguiente enlace:</p>
+    
+    <!-- Enlace para descargar el archivo -->
+    <a href="C:\Users\srkin\OneDrive\Escritorio\GALAXY" download>Haz clic aquí para descargar GALAXY</a>
 
-    <script>
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
+    <!-- Ejemplo real -->
+    <!-- <a href="uploads/mi_archivo.pdf" download>Descargar Archivo PDF</a> -->
 
-        // Variables del jugador (cuadrado)
-        const player = {
-            x: 50,
-            y: canvas.height - 100,
-            width: 50,
-            height: 50,
-            color: '#FF5733',
-            gravity: 0.6,
-            lift: -12,
-            velocityY: 0,
-            jumping: false
-        };
+    <!-- Opción si deseas usar un botón -->
+    <br><br>
+    <button onclick="window.location.href='ruta/del/archivo/nombre_del_archivo.ext'">Descargar Archivo</button>
 
-        // Variables de los obstáculos
-        const obstacles = [];
-        const obstacleWidth = 30;
-        const obstacleHeight = 60;
-        const obstacleSpeed = 6;
-        let frameCount = 0;
-
-        // Estado del juego
-        let isGameOver = false;
-
-        // Evento para salto
-        document.addEventListener('keydown', jump);
-
-        function jump(event) {
-            if (event.code === 'Space' && !player.jumping) {
-                player.velocityY = player.lift;
-                player.jumping = true;
-            }
-        }
-
-        // Dibujar jugador (cuadrado)
-        function drawPlayer() {
-            ctx.fillStyle = player.color;
-            ctx.fillRect(player.x, player.y, player.width, player.height);
-        }
-
-        // Dibujar obstáculos
-        function drawObstacles() {
-            ctx.fillStyle = 'green';
-            obstacles.forEach(obstacle => {
-                ctx.fillRect(obstacle.x, obstacle.y, obstacle.width, obstacle.height);
-            });
-        }
-
-        // Actualizar posición del jugador
-        function updatePlayer() {
-            player.velocityY += player.gravity;
-            player.y += player.velocityY;
-
-            // Limitar el suelo
-            if (player.y + player.height > canvas.height - 50) {
-                player.y = canvas.height - 50 - player.height;
-                player.velocityY = 0;
-                player.jumping = false;
-            }
-        }
-
-        // Generar obstáculos
-        function generateObstacle() {
-            obstacles.push({
-                x: canvas.width,
-                y: canvas.height - obstacleHeight - 50,
-                width: obstacleWidth,
-                height: obstacleHeight
-            });
-        }
-
-        // Mover y gestionar obstáculos
-        function updateObstacles() {
-            obstacles.forEach(obstacle => {
-                obstacle.x -= obstacleSpeed;
-            });
-
-            // Eliminar obstáculos que ya no se ven
-            obstacles = obstacles.filter(obstacle => obstacle.x + obstacle.width > 0);
-
-            // Generar nuevos obstáculos cada cierto tiempo
-            if (frameCount % 90 === 0) {
-                generateObstacle();
-            }
-        }
-
-        // Detectar colisiones
-        function detectCollisions() {
-            for (let obstacle of obstacles) {
-                if (
-                    player.x < obstacle.x + obstacle.width &&
-                    player.x + player.width > obstacle.x &&
-                    player.y < obstacle.y + obstacle.height &&
-                    player.y + player.height > obstacle.y
-                ) {
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        // Mostrar texto de Game Over
-        function showGameOver() {
-            document.getElementById('gameOverText').style.display = 'block';
-        }
-
-        // Función principal del juego
-        function gameLoop() {
-            if (isGameOver) return;
-
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // Dibujar y actualizar jugador y obstáculos
-            drawPlayer();
-            drawObstacles();
-
-            updatePlayer();
-            updateObstacles();
-
-            // Detectar colisiones
-            if (detectCollisions()) {
-                isGameOver = true;
-                showGameOver();
-                return;
-            }
-
-            frameCount++;
-            requestAnimationFrame(gameLoop);
-        }
-
-        gameLoop();
-    </script>
 </body>
 </html>
+
